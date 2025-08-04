@@ -83,7 +83,9 @@ class COMPASNavigator {
         
         // Disable input while processing
         messageInput.disabled = true;
-        document.getElementById('sendButton').disabled = true;
+        const sendButton = document.getElementById('sendButton');
+        sendButton.disabled = true;
+        sendButton.classList.add('processing');
         
         // Add user message to chat
         this.addMessage('user', message);
@@ -153,7 +155,9 @@ class COMPASNavigator {
         } finally {
             // Re-enable input
             messageInput.disabled = false;
-            document.getElementById('sendButton').disabled = false;
+            const sendButton = document.getElementById('sendButton');
+            sendButton.disabled = false;
+            sendButton.classList.remove('processing');
             messageInput.focus();
         }
     }
@@ -180,7 +184,16 @@ class COMPASNavigator {
         const typingDiv = document.createElement('div');
         typingDiv.id = id;
         typingDiv.className = 'message assistant';
-        typingDiv.innerHTML = '<div class="message-content"><div class="loading"></div></div>';
+        typingDiv.innerHTML = `
+            <div class="typing-indicator">
+                <span>COMPAS Navigator is thinking</span>
+                <div class="typing-dots">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            </div>
+        `;
         chatMessages.appendChild(typingDiv);
         chatMessages.scrollTop = chatMessages.scrollHeight;
         return id;
