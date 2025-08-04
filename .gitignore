@@ -42,3 +42,5 @@ coverage/
 # Build outputs
 dist/
 build/
+# Local Netlify folder
+.netlify
