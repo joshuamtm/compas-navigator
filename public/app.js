@@ -169,13 +169,123 @@ class COMPASNavigator {
         
         const contentDiv = document.createElement('div');
         contentDiv.className = 'message-content';
-        contentDiv.textContent = content;
+        
+        // Format content based on role
+        if (role === 'assistant') {
+            contentDiv.innerHTML = this.formatMessage(content);
+        } else {
+            contentDiv.textContent = content;
+        }
         
         messageDiv.appendChild(contentDiv);
         chatMessages.appendChild(messageDiv);
         
         // Scroll to bottom
         chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    formatMessage(content) {
+        // Escape HTML first to prevent XSS
+        const escapeHtml = (text) => {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        };
+        
+        let formatted = escapeHtml(content);
+        
+        // Convert markdown-style formatting to HTML
+        
+        // Bold text (**text** or __text__)
+        formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        formatted = formatted.replace(/__(.*?)__/g, '<strong>$1</strong>');
+        
+        // Italic text (*text* or _text_)
+        formatted = formatted.replace(/\*(.*?)\*/g, '<em>$1</em>');
+        formatted = formatted.replace(/_(.*?)_/g, '<em>$1</em>');
+        
+        // Headers (## Header)
+        formatted = formatted.replace(/^### (.*$)/gm, '<h4>$1</h4>');
+        formatted = formatted.replace(/^## (.*$)/gm, '<h3>$1</h3>');
+        formatted = formatted.replace(/^# (.*$)/gm, '<h2>$1</h2>');
+        
+        // Code blocks (```code```)
+        formatted = formatted.replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>');
+        
+        // Inline code (`code`)
+        formatted = formatted.replace(/`([^`]+)`/g, '<code>$1</code>');
+        
+        // Process line breaks first
+        const lines = formatted.split('\n');
+        const processedLines = [];
+        let inList = false;
+        let listType = null;
+        
+        for (let i = 0; i < lines.length; i++) {
+            const line = lines[i].trim();
+            
+            // Check for numbered list items
+            if (/^\d+\.\s+/.test(line)) {
+                const match = line.match(/^(\d+\.\s+)(.*)$/);
+                if (match) {
+                    if (!inList || listType !== 'numbered') {
+                        if (inList) processedLines.push(`</${listType === 'numbered' ? 'ol' : 'ul'}>`);
+                        processedLines.push('<ol class="formatted-list">');
+                        inList = true;
+                        listType = 'numbered';
+                    }
+                    processedLines.push(`<li class="numbered-item"><span class="list-number">${match[1]}</span>${match[2]}</li>`);
+                    continue;
+                }
+            }
+            
+            // Check for bullet list items
+            if (/^[-*]\s+/.test(line)) {
+                const match = line.match(/^[-*]\s+(.*)$/);
+                if (match) {
+                    if (!inList || listType !== 'bullet') {
+                        if (inList) processedLines.push(`</${listType === 'numbered' ? 'ol' : 'ul'}>`);
+                        processedLines.push('<ul class="formatted-list">');
+                        inList = true;
+                        listType = 'bullet';
+                    }
+                    processedLines.push(`<li class="bullet-item">${match[1]}</li>`);
+                    continue;
+                }
+            }
+            
+            // If we were in a list and this line doesn't continue it, close the list
+            if (inList && line !== '') {
+                processedLines.push(`</${listType === 'numbered' ? 'ol' : 'ul'}>`);
+                inList = false;
+                listType = null;
+            }
+            
+            // Add regular line
+            if (line !== '' || !inList) {
+                processedLines.push(line);
+            }
+        }
+        
+        // Close any remaining list
+        if (inList) {
+            processedLines.push(`</${listType === 'numbered' ? 'ol' : 'ul'}>`);
+        }
+        
+        formatted = processedLines.join('\n');
+        
+        // Convert double line breaks to paragraph breaks
+        formatted = formatted.replace(/\n\n+/g, '</p><p>');
+        
+        // Convert single line breaks to <br> (but not within lists)
+        formatted = formatted.replace(/\n(?![<\/])/g, '<br>');
+        
+        // Wrap in paragraphs if needed
+        if (!formatted.includes('<p>') && !formatted.includes('<h') && !formatted.includes('<ul') && !formatted.includes('<ol') && !formatted.includes('<pre>')) {
+            formatted = `<p>${formatted}</p>`;
+        }
+        
+        return formatted;
     }
 
     showTypingIndicator() {

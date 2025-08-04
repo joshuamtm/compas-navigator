@@ -382,6 +382,130 @@ header h1 {
     color: white;
 }
 
+/* Formatted message content */
+.message-content h2,
+.message-content h3,
+.message-content h4 {
+    margin: 15px 0 10px 0;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.message-content h2 { font-size: 1.3rem; }
+.message-content h3 { font-size: 1.2rem; }
+.message-content h4 { font-size: 1.1rem; }
+
+.message.user .message-content h2,
+.message.user .message-content h3,
+.message.user .message-content h4 {
+    color: white;
+}
+
+.message-content p {
+    margin: 8px 0;
+    line-height: 1.5;
+}
+
+.message-content strong {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.message.user .message-content strong {
+    color: white;
+    font-weight: 700;
+}
+
+.message-content em {
+    font-style: italic;
+    color: var(--text-secondary);
+}
+
+.message.user .message-content em {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.message-content code {
+    background: var(--bg-color);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 0.9em;
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+.message.user .message-content code {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.message-content pre {
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 12px;
+    margin: 10px 0;
+    overflow-x: auto;
+}
+
+.message-content pre code {
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 0.85em;
+    line-height: 1.4;
+}
+
+.message.user .message-content pre {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.formatted-list {
+    margin: 10px 0;
+    padding-left: 0;
+    list-style: none;
+}
+
+.formatted-list li {
+    margin: 6px 0;
+    padding-left: 20px;
+    position: relative;
+    line-height: 1.4;
+}
+
+.bullet-item::before {
+    content: '•';
+    color: var(--primary-color);
+    font-weight: bold;
+    position: absolute;
+    left: 8px;
+}
+
+.message.user .bullet-item::before {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.numbered-item {
+    padding-left: 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.list-number {
+    color: var(--primary-color);
+    font-weight: 600;
+    min-width: 20px;
+    flex-shrink: 0;
+}
+
+.message.user .list-number {
+    color: rgba(255, 255, 255, 0.9);
+}
+
 .chat-input-container {
     display: flex;
     padding: 20px;

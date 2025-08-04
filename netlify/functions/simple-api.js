@@ -229,7 +229,13 @@ IMPORTANT INSTRUCTIONS:
 3. When stage completion criteria are met, clearly indicate readiness to progress
 4. Keep responses conversational but structured
 5. Extract and organize information for the final report
-6. Use plain language, maximum 300 words per response`;
+6. Use plain language, maximum 300 words per response
+7. Format your responses for readability using:
+   - **Bold text** for important points and key terms
+   - Numbered lists (1. 2. 3.) for sequential steps or priorities
+   - Bullet points (- or *) for options, features, or related items
+   - ## Headers for major sections when appropriate
+   - Use formatting to make responses scannable and easy to digest`;
   }
 }
 
