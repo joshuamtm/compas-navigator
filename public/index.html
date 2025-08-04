@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COMPAS Navigator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1>COMPAS Navigator</h1>
+            <p class="subtitle">AI-Powered Nonprofit Challenge Solver</p>
+        </header>
+
+        <main>
+            <!-- Progress Indicator -->
+            <div class="progress-bar">
+                <div class="progress-step active" data-stage="context_discovery">
+                    <div class="step-number">1</div>
+                    <div class="step-label">Context</div>
+                </div>
+                <div class="progress-step" data-stage="objective_definition">
+                    <div class="step-number">2</div>
+                    <div class="step-label">Objective</div>
+                </div>
+                <div class="progress-step" data-stage="method_ideation">
+                    <div class="step-number">3</div>
+                    <div class="step-label">Method</div>
+                </div>
+                <div class="progress-step" data-stage="implementation_plan">
+                    <div class="step-number">4</div>
+                    <div class="step-label">Plan</div>
+                </div>
+                <div class="progress-step" data-stage="complete">
+                    <div class="step-number">5</div>
+                    <div class="step-label">Assessment</div>
+                </div>
+            </div>
+
+            <!-- Artifact Basket -->
+            <div class="artifact-basket">
+                <h3>Artifact Basket</h3>
+                <div class="artifact-list" id="artifactList">
+                    <p class="empty-state">No artifacts added yet</p>
+                </div>
+                <div class="upload-section">
+                    <input type="file" id="fileInput" accept=".pdf,.csv,.json,.txt" style="display: none;">
+                    <button class="upload-btn" onclick="document.getElementById('fileInput').click()">
+                        Upload File
+                    </button>
+                </div>
+            </div>
+
+            <!-- Chat Interface -->
+            <div class="chat-container">
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message assistant">
+                        <div class="message-content">
+                            Welcome to COMPAS Navigator! I'm here to help you solve real-world nonprofit challenges. Let's start by understanding your situation. Can you describe the challenge you're facing?
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="chat-input-container">
+                    <textarea 
+                        id="messageInput" 
+                        class="chat-input" 
+                        placeholder="Type your message..."
+                        rows="3"
+                    ></textarea>
+                    <button id="sendButton" class="send-button">Send</button>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <button id="generateReportBtn" class="action-btn secondary" disabled>
+                    Generate Report
+                </button>
+                <button id="exportBtn" class="action-btn secondary" disabled>
+                    Export
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <!-- Export Modal -->
+    <div id="exportModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Export COMPAS Report</h2>
+            <div class="export-options">
+                <button class="export-option" data-format="markdown">
+                    Export as Markdown
+                </button>
+                <button class="export-option" data-format="pdf">
+                    Export as PDF
+                </button>
+                <button class="export-option" data-format="docx">
+                    Export as DOCX
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
