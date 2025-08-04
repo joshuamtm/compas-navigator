@@ -26,7 +26,7 @@ class COMPASNavigator {
 
     async createSession() {
         try {
-            const response = await fetch('/.netlify/functions/api/sessions', {
+            const response = await fetch('/.netlify/functions/simple-api/sessions', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' }
             });
@@ -95,7 +95,7 @@ class COMPASNavigator {
             // Show typing indicator
             const typingId = this.showTypingIndicator();
             
-            const response = await fetch(`/.netlify/functions/api/sessions/${this.sessionId}/chat`, {
+            const response = await fetch(`/.netlify/functions/simple-api/sessions/${this.sessionId}/chat`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message })
@@ -214,7 +214,7 @@ class COMPASNavigator {
         formData.append('source', source || 'Manual upload');
         
         try {
-            const response = await fetch(`/.netlify/functions/api/sessions/${this.sessionId}/upload`, {
+            const response = await fetch(`/.netlify/functions/simple-api/sessions/${this.sessionId}/upload`, {
                 method: 'POST',
                 body: formData
             });
@@ -272,7 +272,7 @@ class COMPASNavigator {
 
     async generateReport() {
         try {
-            const response = await fetch(`/.netlify/functions/api/sessions/${this.sessionId}/report`);
+            const response = await fetch(`/.netlify/functions/simple-api/sessions/${this.sessionId}/report`);
             const data = await response.json();
             
             if (data.report) {
