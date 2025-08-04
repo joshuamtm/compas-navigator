@@ -360,12 +360,17 @@ app.use((err, req, res, next) => {
   res.status(500).send('Something broke!');
 });
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`COMPAS Navigator server running on port ${PORT}`);
-  
-  // Start security tasks
+// Only start server if not in serverless environment
+if (!process.env.NETLIFY) {
+  app.listen(PORT, () => {
+    console.log(`COMPAS Navigator server running on port ${PORT}`);
+    
+    // Start security tasks
+    startSecurityTasks(securityService);
+  });
+} else {
+  // Initialize security tasks for serverless
   startSecurityTasks(securityService);
-});
+}
 
 module.exports = app;
