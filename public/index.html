@@ -10,7 +10,12 @@
     <div class="app-container">
         <header>
             <h1>COMPAS Navigator</h1>
-            <p class="subtitle">AI-Powered Nonprofit Challenge Solver</p>
+            <p class="subtitle">Turn nonprofit challenges into actionable solutions in 30 minutes</p>
+            <div class="value-props">
+                <span class="prop">✓ Structured problem-solving</span>
+                <span class="prop">✓ Ready-to-implement plans</span>
+                <span class="prop">✓ AI-powered insights</span>
+            </div>
         </header>
 
         <main>
@@ -18,36 +23,85 @@
             <div class="progress-bar">
                 <div class="progress-step active" data-stage="context_discovery">
                     <div class="step-number">1</div>
-                    <div class="step-label">Context</div>
+                    <div class="step-content">
+                        <div class="step-label">Context Discovery</div>
+                        <div class="step-meta">~5-10 min • Define your challenge</div>
+                        <div class="step-status">In Progress</div>
+                    </div>
                 </div>
                 <div class="progress-step" data-stage="objective_definition">
                     <div class="step-number">2</div>
-                    <div class="step-label">Objective</div>
+                    <div class="step-content">
+                        <div class="step-label">Objective Definition</div>
+                        <div class="step-meta">~3-5 min • Identify root problems</div>
+                        <div class="step-status">Pending</div>
+                    </div>
                 </div>
                 <div class="progress-step" data-stage="method_ideation">
                     <div class="step-number">3</div>
-                    <div class="step-label">Method</div>
+                    <div class="step-content">
+                        <div class="step-label">Method Selection</div>
+                        <div class="step-meta">~2-3 min • Choose approach</div>
+                        <div class="step-status">Pending</div>
+                    </div>
                 </div>
                 <div class="progress-step" data-stage="implementation_plan">
                     <div class="step-number">4</div>
-                    <div class="step-label">Plan</div>
+                    <div class="step-content">
+                        <div class="step-label">Implementation Plan</div>
+                        <div class="step-meta">~5-7 min • Build action steps</div>
+                        <div class="step-status">Pending</div>
+                    </div>
                 </div>
                 <div class="progress-step" data-stage="complete">
                     <div class="step-number">5</div>
-                    <div class="step-label">Assessment</div>
+                    <div class="step-content">
+                        <div class="step-label">Assessment & Export</div>
+                        <div class="step-meta">~2-3 min • Review & download</div>
+                        <div class="step-status">Pending</div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Artifact Basket -->
-            <div class="artifact-basket">
-                <h3>Artifact Basket</h3>
+            <!-- Outcome Preview -->
+            <div class="outcome-preview">
+                <h4>Your COMPAS Report Will Include:</h4>
+                <ul class="outcome-list">
+                    <li><span class="outcome-icon">📋</span> Clear problem statement</li>
+                    <li><span class="outcome-icon">🎯</span> Specific solution recommendations</li>
+                    <li><span class="outcome-icon">📅</span> Step-by-step implementation plan</li>
+                    <li><span class="outcome-icon">📊</span> Success metrics and timelines</li>
+                    <li><span class="outcome-icon">💾</span> Exportable action plan (PDF/DOCX)</li>
+                </ul>
+            </div>
+
+            <!-- Artifact Basket (Initially Hidden) -->
+            <div class="artifact-basket" id="artifactBasket" style="display: none;">
+                <div class="basket-header">
+                    <h3>Supporting Documents</h3>
+                    <div class="help-tooltip">
+                        <span class="tooltip-icon">ℹ️</span>
+                        <div class="tooltip-content">Upload files that provide context for your challenge (optional)</div>
+                    </div>
+                </div>
+                
+                <div class="file-suggestions">
+                    <p>Helpful documents might include:</p>
+                    <div class="suggestion-tags">
+                        <span class="tag">Meeting notes</span>
+                        <span class="tag">Survey data</span>
+                        <span class="tag">Process docs</span>
+                        <span class="tag">Reports</span>
+                    </div>
+                </div>
+                
                 <div class="artifact-list" id="artifactList">
-                    <p class="empty-state">No artifacts added yet</p>
+                    <p class="empty-state">No documents uploaded yet</p>
                 </div>
                 <div class="upload-section">
                     <input type="file" id="fileInput" accept=".pdf,.csv,.json,.txt" style="display: none;">
                     <button class="upload-btn" onclick="document.getElementById('fileInput').click()">
-                        Upload File
+                        📎 Add Document
                     </button>
                 </div>
             </div>
@@ -57,7 +111,9 @@
                 <div class="chat-messages" id="chatMessages">
                     <div class="message assistant">
                         <div class="message-content">
-                            Welcome to COMPAS Navigator! I'm here to help you solve real-world nonprofit challenges. Let's start by understanding your situation. Can you describe the challenge you're facing?
+                            <strong>Welcome to your COMPAS journey!</strong><br><br>
+                            I'll guide you through 5 focused questions to transform your challenge into a clear action plan. This typically takes 15-30 minutes.<br><br>
+                            <strong>Let's start with Context Discovery:</strong> Can you describe the specific challenge your nonprofit is facing? Be as detailed as possible - I'll help you clarify and organize the information.
                         </div>
                     </div>
                 </div>
@@ -83,6 +139,81 @@
                 </button>
             </div>
         </main>
+
+        <!-- Social Proof Section -->
+        <div class="social-proof">
+            <div class="framework-credibility">
+                <p><strong>Trusted Framework:</strong> COMPAS methodology used by 500+ nonprofit professionals</p>
+            </div>
+            <div class="testimonial">
+                <p>"COMPAS helped us identify the root cause of our volunteer retention issue and create a plan that increased retention by 40%."</p>
+                <cite>— Maria S., Food Bank Director</cite>
+            </div>
+        </div>
+    </div>
+
+    <!-- Welcome Modal -->
+    <div id="welcomeModal" class="modal welcome-modal">
+        <div class="modal-content welcome-content">
+            <h2>Transform Your Nonprofit Challenge into an Action Plan</h2>
+            <p class="welcome-subtitle">COMPAS Navigator guides you through a proven 5-step framework to solve real-world problems with clarity and confidence.</p>
+            
+            <div class="process-preview">
+                <div class="step-preview">
+                    <span class="step-icon">🎯</span>
+                    <div class="step-info">
+                        <h4>Context</h4>
+                        <p>Define your challenge clearly</p>
+                    </div>
+                </div>
+                <div class="step-preview">
+                    <span class="step-icon">🔍</span>
+                    <div class="step-info">
+                        <h4>Objective</h4>
+                        <p>Identify root problems (not solutions)</p>
+                    </div>
+                </div>
+                <div class="step-preview">
+                    <span class="step-icon">⚡</span>
+                    <div class="step-info">
+                        <h4>Method</h4>
+                        <p>Choose the best approach</p>
+                    </div>
+                </div>
+                <div class="step-preview">
+                    <span class="step-icon">📋</span>
+                    <div class="step-info">
+                        <h4>Plan</h4>
+                        <p>Build actionable steps</p>
+                    </div>
+                </div>
+                <div class="step-preview">
+                    <span class="step-icon">📊</span>
+                    <div class="step-info">
+                        <h4>Assessment</h4>
+                        <p>Set success metrics</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="time-expectation">
+                <span class="clock-icon">⏱️</span>
+                <strong>15-30 minutes</strong> to complete
+            </div>
+            
+            <button class="get-started-btn" onclick="closeWelcomeModal()">Start Your COMPAS Journey</button>
+            
+            <div class="what-you-get">
+                <h4>What You'll Get:</h4>
+                <ul>
+                    <li>Clear problem statement and root cause analysis</li>
+                    <li>Specific, actionable solution recommendations</li>
+                    <li>Step-by-step implementation timeline</li>
+                    <li>Success metrics and measurement plan</li>
+                    <li>Professional report you can share with stakeholders</li>
+                </ul>
+            </div>
+        </div>
     </div>
 
     <!-- Export Modal -->

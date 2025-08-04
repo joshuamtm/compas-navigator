@@ -7,6 +7,9 @@ class COMPASNavigator {
     }
 
     async initializeApp() {
+        // Show welcome modal
+        this.showWelcomeModal();
+        
         // Create new session
         await this.createSession();
         
@@ -15,6 +18,10 @@ class COMPASNavigator {
         
         // Initialize UI
         this.updateProgressBar();
+    }
+
+    showWelcomeModal() {
+        document.getElementById('welcomeModal').style.display = 'block';
     }
 
     async createSession() {
@@ -106,6 +113,12 @@ class COMPASNavigator {
             if (data.stage !== this.currentStage) {
                 this.currentStage = data.stage;
                 this.updateProgressBar();
+                this.showMilestone(data.stage);
+                
+                // Show artifact basket when needed
+                if (data.stage === 'context_discovery' || data.stage === 'objective_definition') {
+                    document.getElementById('artifactBasket').style.display = 'block';
+                }
                 
                 // Enable report generation if complete
                 if (data.stage === 'complete') {
@@ -167,11 +180,19 @@ class COMPASNavigator {
         const currentIndex = stages.indexOf(this.currentStage);
         
         document.querySelectorAll('.progress-step').forEach((step, index) => {
-            if (index <= currentIndex) {
-                step.classList.add('active');
-            }
+            const statusElement = step.querySelector('.step-status');
+            
             if (index < currentIndex) {
                 step.classList.add('completed');
+                step.classList.remove('active');
+                if (statusElement) statusElement.textContent = 'Completed ✓';
+            } else if (index === currentIndex) {
+                step.classList.add('active');
+                step.classList.remove('completed');
+                if (statusElement) statusElement.textContent = 'In Progress';
+            } else {
+                step.classList.remove('active', 'completed');
+                if (statusElement) statusElement.textContent = 'Pending';
             }
         });
     }
@@ -310,10 +331,47 @@ class COMPASNavigator {
         window.URL.revokeObjectURL(url);
     }
 
-    showError(message) {
-        // In a real app, use a proper toast/notification system
-        alert(message);
+    showMilestone(stage) {
+        const stageMessages = {
+            'objective_definition': 'Great work! You\'ve completed the Context Discovery phase. You\'re 20% through your COMPAS journey.',
+            'method_ideation': 'Excellent! Problem defined. You\'re 40% through your COMPAS journey.',
+            'method_selection': 'Progress! Methods identified. You\'re 60% through your COMPAS journey.',
+            'implementation_plan': 'Almost there! Method selected. You\'re 80% through your COMPAS journey.',
+            'complete': '🎉 Congratulations! You\'ve completed your COMPAS journey. Your action plan is ready!'
+        };
+        
+        if (stageMessages[stage]) {
+            this.showNotification(stageMessages[stage], 'success');
+        }
     }
+
+    showNotification(message, type = 'info') {
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.innerHTML = `
+            <div class="notification-content">
+                <span class="notification-message">${message}</span>
+                <button class="notification-close" onclick="this.parentElement.parentElement.remove()">×</button>
+            </div>
+        `;
+        document.body.appendChild(notification);
+        
+        // Auto-remove after 5 seconds
+        setTimeout(() => {
+            if (notification.parentElement) {
+                notification.remove();
+            }
+        }, 5000);
+    }
+
+    showError(message) {
+        this.showNotification(message, 'error');
+    }
+}
+
+// Global functions
+function closeWelcomeModal() {
+    document.getElementById('welcomeModal').style.display = 'none';
 }
 
 // Initialize app when DOM is ready
